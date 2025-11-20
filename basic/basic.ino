@@ -1,7 +1,7 @@
 int ECHO = 8; // echo value back 
 int TRIG = 9; // triggers sound output
 int duration; 
-float distance
+float distance;
 float meter;
 int LED = 13;
 int IR = 7; // input pin for IR sensor
@@ -23,8 +23,8 @@ void setup() {
 void loop() {
 
   // IR
-  isObstacle_IR = digitalRead(isObstaclePin);
-  if (isObstacle == LOW)
+  isObstacle_IR = digitalRead(IR);
+  if (isObstacle_IR == LOW)
   {
     Serial.println("OBSTACLE!!, OBSTACLE!!");
     digitalWrite(LED, HIGH);
@@ -40,8 +40,8 @@ void loop() {
    
   digitalWrite(TRIG, HIGH); 
   delayMicroseconds(10); 
-  digitalWrite(trig, LOW); 
-  duration = pulseIn(echo, HIGH);
+  digitalWrite(TRIG, LOW); 
+  duration = pulseIn(ECHO, HIGH);
   if(duration>=38000){
     Serial.print("Out range"); 
   }
