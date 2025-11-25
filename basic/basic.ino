@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <SparkFun_TB6612.h>
 
 // US initializations
@@ -7,8 +8,8 @@ int duration; // duration it takes for pulse echo off object and come back
 float distance; // distance to object
 
 // IR initializations
-#define IR_LED = 13; // LED on IR sensor
-#define IR_INPUT = 7; // input pin for IR sensor
+#define IR_LED 13 // LED on IR sensor
+#define IR_INPUT 7 // input pin for IR sensor
 int IR_isObstacle = HIGH; // for IR sensor, high means yes
 
 // motor initializations
@@ -21,16 +22,16 @@ int IR_isObstacle = HIGH; // for IR sensor, high means yes
 #define STBY 6
 const int offsetA = 1;
 const int offsetB = 1;
-Motor left = Motor(AIN1, AIN2, PWNA, offsetA, STBY);
-Motor right = Motor(BIN1, BIN2, PWNB, offsetB, STBY);
+Motor left_motor = Motor(AIN1, AIN2, PWMA, offsetA, STBY);
+Motor right_motor = Motor(BIN1, BIN2, PWMB, offsetB, STBY);
 
 void setup() {
 
   Serial.begin(9600);
 
   // initialize IR
-  pinMode(IR, INPUT);
-  pinMode(LED, OUTPUT);
+  pinMode(IR_INPUT, INPUT);
+  pinMode(IR_LED, OUTPUT);
 
   // initialize US
   pinMode(TRIG, OUTPUT);
