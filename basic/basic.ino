@@ -1,10 +1,28 @@
-int ECHO = 8; // echo value back 
-int TRIG = 9; // triggers sound output
+#include <SparkFun_TB6612.h>
+
+// US initializations
+#define ECHO 8 // echo value back 
+#define TRIG 9 // triggers sound output
 int duration; // duration it takes for pulse echo off object and come back
 float distance; // distance to object
-int IR_LED = 13; // LED on IR sensor
-int IR_INPUT = 7; // input pin for IR sensor
+
+// IR initializations
+#define IR_LED = 13; // LED on IR sensor
+#define IR_INPUT = 7; // input pin for IR sensor
 int IR_isObstacle = HIGH; // for IR sensor, high means yes
+
+// motor initializations
+#define AIN1 2
+#define BIN1 4
+#define AIN2 3
+#define BIN2 5
+#define PWMA 10
+#define PWMB 11
+#define STBY 6
+const int offsetA = 1;
+const int offsetB = 1;
+Motor left = Motor(AIN1, AIN2, PWNA, offsetA, STBY);
+Motor right = Motor(BIN1, BIN2, PWNB, offsetB, STBY);
 
 void setup() {
 
