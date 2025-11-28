@@ -1,18 +1,24 @@
 #include <Arduino.h>
 #include <SparkFun_TB6612.h>
 
-// US initializations
-#define ECHO 8 // echo value back 
-#define TRIG 9 // triggers sound output
-int duration; // duration it takes for pulse echo off object and come back
-float distance; // distance to object
+// US1 initializations
+#define RIGHT_ECHO 8 // echo value back 
+#define RIGHT_TRIG 9 // triggers sound output
+int right_duration; // duration it takes for pulse echo off object and come back
+float right_distance; // distance to object
+
+// US2 initializations
+#define LEFT_ECHO 13
+#define LEFT_TRIG 12
+int left_duration;
+float left_distance;
+
 
 // IR initializations
-#define IR_LED 13 // LED on IR sensor
 #define IR_INPUT 7 // input pin for IR sensor
 int IR_isObstacle = HIGH; // for IR sensor, high means yes
 
-// motor initializations
+// motor initializationso
 #define AIN1 2
 #define BIN1 4
 #define AIN2 3
@@ -31,14 +37,18 @@ void setup() {
 
   // initialize IR
   pinMode(IR_INPUT, INPUT);
-  pinMode(IR_LED, OUTPUT);
 
-  // initialize US
-  pinMode(TRIG, OUTPUT);
-  pinMode(ECHO, INPUT);
+  // initialize US1
+  pinMode(RIGHT_TRIG, OUTPUT);
+  pinMode(RIGHT_ECHO, INPUT);
+
+  // initialize US2
+  pinMode(LEFT_TRIG, OUTPUT);
+  pinMode(LEFT_ECHO, INPUT);
 
   // ensure trigger is set to low at first
-  digitalWrite(TRIG, LOW);
+  digitalWrite(RIGHT_TRIG, LOW);
+  digitalWrite(LEFT_TRIG, LOW);
 
 }
 
@@ -47,36 +57,58 @@ void loop() {
   // IR
   IR_isObstacle = digitalRead(IR_INPUT);
 
-  if (IR_isObstacle == LOW)
-  {
+  if (IR_isObstacle == LOW) {
+
     Serial.println("White surface.");
-    digitalWrite(IR_LED, HIGH);
+
   }
-  else
-  {
+  else {
+
     Serial.println("Black surface.");
-    digitalWrite(IR_LED, LOW);
+
   }
 
   delay(200);
 
-  // US
-   
-  digitalWrite(TRIG, HIGH); // pulse trigger
+  // US1
+  digitalWrite(RIGHT_TRIG, HIGH); // pulse trigger
   delayMicroseconds(10); 
-  digitalWrite(TRIG, LOW);
-  duration = pulseIn(ECHO, HIGH); // read echo
+  digitalWrite(RIGHT_TRIG, LOW);
+  right_duration = pulseIn(RIGHT_ECHO, HIGH); // read echo
 
-  if (duration >= 38000) {
+  if (right_duration >= 38000) {
 
     Serial.print("Out of range"); 
 
   }
-  else
-  {
+  else {
+
     // calculate distance to object
-    distance = duration / 58; 
-    Serial.print(distance); 
+    right_distance = right_duration / 58; 
+    Serial.print(right_distance); 
+    Serial.println(" cm");
+
+  }
+
+  delay(1000); 
+
+  // US2
+  digitalWrite(LEFT_TRIG, HIGH); // pulse trigger
+  delayMicroseconds(10); 
+  digitalWrite(LEFT_TRIG, LOW);
+  left_duration = pulseIn(LEFT_ECHO, HIGH); // read echo
+
+  if (left_duration >= 38000) {
+
+    Serial.print("Out of range"); 
+
+  }
+  else {
+
+    // calculate distance to object
+    left_distance = left_duration / 58; 
+    Serial.println(left_duration);
+    Serial.print(left_distance); 
     Serial.println(" cm");
 
   }
